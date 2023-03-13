@@ -1,4 +1,5 @@
 import uniqid from "uniqid";
+import _ from "lodash";
 
 const anecdotesAtStart = [
   "If it hurts, do it more often",
@@ -25,11 +26,13 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case "VOTE":
-      return state.map((anecdote) => {
+      const newState = state.map((anecdote) => {
         if (anecdote.id === action.payload.id)
           return { ...anecdote, votes: ++anecdote.votes };
         return anecdote;
       });
+
+      return _.orderBy(newState, "votes", "desc");
 
     case "ADD":
       return state.concat(asObject(action.payload));
