@@ -20,6 +20,14 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject);
 
+export const voteFor = (id) => {
+  return { type: "VOTE", payload: id };
+};
+
+export const createAnecdote = (content) => {
+  return { type: "ADD", payload: asObject(content) };
+};
+
 const reducer = (state = initialState, action) => {
   console.log("state now: ", state);
   console.log("action", action);
@@ -27,7 +35,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "VOTE":
       const newState = state.map((anecdote) => {
-        if (anecdote.id === action.payload.id)
+        if (anecdote.id === action.payload)
           return { ...anecdote, votes: ++anecdote.votes };
         return anecdote;
       });
@@ -35,7 +43,7 @@ const reducer = (state = initialState, action) => {
       return _.orderBy(newState, "votes", "desc");
 
     case "ADD":
-      return state.concat(asObject(action.payload));
+      return state.concat(action.payload);
 
     default:
       return state;
