@@ -2,7 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { voteFor } from "../reducers/anecdoteReducer";
 
 const AnecdotesList = () => {
-  const anecdotes = useSelector((state) => state);
+  const anecdotes = useSelector((state) => state.anecdote);
+  const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
   const vote = (id) => {
@@ -11,15 +12,18 @@ const AnecdotesList = () => {
 
   return (
     <>
-      {anecdotes.map((anecdote) => (
-        <div key={anecdote.id}>
-          <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
-          </div>
-        </div>
-      ))}
+      {anecdotes.map((anecdote) => {
+        if (anecdote.content.toUpperCase().includes(filter.toUpperCase()))
+          return (
+            <div key={anecdote.id}>
+              <div>{anecdote.content}</div>
+              <div>
+                has {anecdote.votes}
+                <button onClick={() => vote(anecdote.id)}>vote</button>
+              </div>
+            </div>
+          );
+      })}
     </>
   );
 };
