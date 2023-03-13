@@ -24,20 +24,15 @@ const reducer = (state = initialState, action) => {
   console.log("action", action);
 
   switch (action.type) {
-    // case "VOTE":
-    //   let newAnecdote = {};
-    //   let newState = state.filter(
-    //     (anecdote) => anecdote.id !== action.payload.id
-    //   );
-    //   Object.assign(newAnecdote, action.payload);
-
-    //   return newState.concat({ ...newAnecdote, votes: ++newAnecdote.votes });
     case "VOTE":
       return state.map((anecdote) => {
         if (anecdote.id === action.payload.id)
           return { ...anecdote, votes: ++anecdote.votes };
         return anecdote;
       });
+
+    case "ADD":
+      return state.concat(asObject(action.payload));
 
     default:
       return state;
