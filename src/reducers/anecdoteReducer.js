@@ -1,5 +1,6 @@
 import uniqid from "uniqid";
 import _ from "lodash";
+import { createSlice } from "@reduxjs/toolkit";
 
 const anecdotesAtStart = [
   "If it hurts, do it more often",
@@ -20,35 +21,56 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject);
 
-export const voteFor = (id) => {
-  return { type: "VOTE", payload: id };
-};
+const anecdoteSlice = createSlice({
+  name: "anecdotes",
+  initialState,
+  reducers: {
+    createAnecdote(state, action) {
+      const anecdote = action.payload;
+      return state.concat(asObject(anecdote));
+    },
 
-export const createAnecdote = (content) => {
-  return { type: "ADD", payload: asObject(content) };
-};
-
-const anecdoteReducer = (state = initialState, action) => {
-  console.log("----------Anecdote----------");
-  console.log("State now: ", state);
-  console.log("Action", action);
-
-  switch (action.type) {
-    case "VOTE":
-      const newState = state.map((anecdote) => {
+    voteFor(state, action) {
+      let newState = JSON.parse(JSON.stringify(state));
+      newState = newState.map((anecdote) => {
         if (anecdote.id === action.payload)
           return { ...anecdote, votes: ++anecdote.votes };
         return anecdote;
       });
 
       return _.orderBy(newState, "votes", "desc");
+    },
+  },
+});
 
-    case "ADD":
-      return state.concat(action.payload);
+export const { createAnecdote, voteFor } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
 
-    default:
-      return state;
-  }
-};
+// export const createAnecdote = (content) => {
+//   return { type: "ADD", payload: asObject(content) };
+// };
 
-export default anecdoteReducer;
+// const anecdoteReducer = (state = initialState, action) => {
+//   console.log("----------Anecdote----------");
+//   console.log("State now: ", state);
+//   console.log("Action", action);
+
+//   switch (action.type) {
+//     case "VOTE":
+//       const newState = state.map((anecdote) => {
+//         if (anecdote.id === action.payload)
+//           return { ...anecdote, votes: ++anecdote.votes };
+//         return anecdote;
+//       });
+
+//       return _.orderBy(newState, "votes", "desc");
+
+//     case "ADD":
+//       return state.concat(action.payload);
+
+//     default:
+//       return state;
+//   }
+// };
+
+// export default anecdoteReducer;
