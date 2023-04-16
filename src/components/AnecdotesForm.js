@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { createAnecdote } from "../reducers/anecdoteReducer";
-import anecdoteService from "../services/anecdoteService";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -8,7 +7,6 @@ const AnecdoteForm = () => {
   const addAnecdote = (event) => {
     event.preventDefault();
     dispatch(createAnecdote(event.target.newAnecdote.value));
-    anecdoteService.createNew(event.target.newAnecdote.value);
 
     event.target.newAnecdote.value = "";
   };

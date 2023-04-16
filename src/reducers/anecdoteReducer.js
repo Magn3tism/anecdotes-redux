@@ -1,16 +1,7 @@
-import uniqid from "uniqid";
 import _ from "lodash";
 import { createSlice } from "@reduxjs/toolkit";
 
 import anecdoteService from "../services/anecdoteService";
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: uniqid(),
-    votes: 0,
-  };
-};
 
 const initializeNotes = () => {
   return async (dispatch) => {
@@ -19,15 +10,17 @@ const initializeNotes = () => {
   };
 };
 
+const createAnecdote = (anecdote) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.createNew(anecdote);
+    dispatch(appendAnecdote(newAnecdote));
+  };
+};
+
 const anecdoteSlice = createSlice({
   name: "anecdotes",
   initialState: [],
   reducers: {
-    createAnecdote(state, action) {
-      const anecdote = action.payload;
-      return state.concat(asObject(anecdote));
-    },
-
     voteFor(state, action) {
       let newState = JSON.parse(JSON.stringify(state));
       newState = newState.map((anecdote) => {
@@ -49,9 +42,8 @@ const anecdoteSlice = createSlice({
   },
 });
 
-export const { createAnecdote, voteFor, appendAnecdote, setAnecdotes } =
-  anecdoteSlice.actions;
+export const { voteFor, appendAnecdote, setAnecdotes } = anecdoteSlice.actions;
 
-export { initializeNotes };
+export { initializeNotes, createAnecdote };
 
 export default anecdoteSlice.reducer;
