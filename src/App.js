@@ -6,6 +6,7 @@ import { initializeNotes } from "./reducers/anecdoteReducer";
 import AnecdoteForm from "./components/AnecdotesForm";
 import AnecdotesList from "./components/AnecdotesList";
 import Filter from "./components/Filter";
+import Notification from "./components/Notification";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
+      <Notification />
       <Filter />
       <AnecdotesList />
       <AnecdoteForm />
