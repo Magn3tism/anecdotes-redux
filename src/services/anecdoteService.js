@@ -18,4 +18,6 @@ const createNew = async (anecdote) => {
   return response.data;
 };
 
-export default { getAll, createNew };
+let noteService = { getAll, createNew };
+
+export default noteService;

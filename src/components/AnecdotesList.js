@@ -12,18 +12,21 @@ const AnecdotesList = () => {
 
   return (
     <>
-      {anecdotes.map((anecdote) => {
-        if (anecdote.content.toUpperCase().includes(filter.toUpperCase()))
-          return (
-            <div key={anecdote.id}>
-              <div>{anecdote.content}</div>
-              <div>
-                has {anecdote.votes}
-                <button onClick={() => vote(anecdote.id)}>vote</button>
+      {
+        // eslint-disable-next-line
+        anecdotes.map((anecdote) => {
+          if (anecdote.content.toUpperCase().includes(filter.toUpperCase()))
+            return (
+              <div key={anecdote.id}>
+                <div>{anecdote.content}</div>
+                <div>
+                  has {anecdote.votes}
+                  <button onClick={() => vote(anecdote.id)}>vote</button>
+                </div>
               </div>
-            </div>
-          );
-      })}
+            );
+        })
+      }
     </>
   );
 };
