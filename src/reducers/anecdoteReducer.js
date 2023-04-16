@@ -44,7 +44,7 @@ const anecdoteSlice = createSlice({
     },
 
     setAnecdotes(state, action) {
-      return action.payload;
+      return _.orderBy(action.payload, "votes", "desc");
     },
   },
 });
